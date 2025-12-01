@@ -4,6 +4,9 @@ from pydantic import BaseModel
 app = FastAPI()
 
 
+# ------------------------------------------------------------
+# Data Model
+# ------------------------------------------------------------
 class Book(BaseModel):
     id: int
     title: str
@@ -11,10 +14,15 @@ class Book(BaseModel):
     year: int
 
 
-# Fake local storage
+# ------------------------------------------------------------
+# In-Memory Storage
+# ------------------------------------------------------------
 library: list[Book] = []
 
 
+# ------------------------------------------------------------
+# CRUD Endpoints
+# ------------------------------------------------------------
 @app.get("/books", response_model=list[Book])
 def get_books():
     return library
@@ -47,6 +55,9 @@ def delete_book(book_id: int):
     raise HTTPException(status_code=404, detail="Book not found.")
 
 
+# ------------------------------------------------------------
+# Hello World Root Endpoint (optional)
+# ------------------------------------------------------------
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
